@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="course-container">
+        <!-- Course Header -->
+        <header class="course-header">
+            <h1>Welcome to Your Course</h1>
+            <p id="greeting"></p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- User Details Section -->
+            <aside class="user-details">
+                <h2>Your Details</h2>
+                <p><strong>Name:</strong> <span id="enrolledName"></span></p>
+                <p><strong>Email:</strong> <span id="enrolledEmail"></span></p>
+                <p><strong>Course:</strong> <span id="enrolledCourse"></span></p>
+            </aside>
+
+            <!-- Video and Playlist Section -->
+            <section class="video-section">
+                <h2>Course Video</h2>
+                <video id="courseVideo" controls>
+                    <source src="course-video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+
+                <!-- Playlist Section -->
+                <div class="playlist">
+                    <h3>Playlist</h3>
+                    <ul id="videoPlaylist">
+                        <li data-video="course-video.mp4" class="active">Introduction</li>
+                        <li data-video="lesson1.mp4">Lesson 1: Basics</li>
+                        <li data-video="lesson2.mp4">Lesson 2: Advanced Concepts</li>
+                        <li data-video="lesson3.mp4">Lesson 3: Final Thoughts</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve user details from localStorage
+        document.getElementById("enrolledName").innerText = localStorage.getItem("enrolledName");
+        document.getElementById("enrolledEmail").innerText = localStorage.getItem("enrolledEmail");
+        document.getElementById("enrolledCourse").innerText = localStorage.getItem("enrolledCourse");
+
+        // Display a personalized greeting
+        const userName = localStorage.getItem("enrolledName");
+        document.getElementById("greeting").innerText = `Hello, ${userName || "Student"}! Enjoy your course.`;
+
+        // Video Playlist Functionality
+        const videoElement = document.getElementById("courseVideo");
+        const playlistItems = document.querySelectorAll("#videoPlaylist li");
+
+        playlistItems.forEach(item => {
+            item.addEventListener("click", () => {
+                // Update video source
+                const videoSrc = item.getAttribute("data-video");
+                videoElement.querySelector("source").src = videoSrc;
+                videoElement.load();
+
+                // Update active class
+                document.querySelector("#videoPlaylist .active").classList.remove("active");
+                item.classList.add("active");
+            });
+        });
+    </script>
+</body>
+</html>
